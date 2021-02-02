@@ -9,6 +9,11 @@ SimpleLED::SimpleLED(int ledPin)
     pinMode(_ledPin, OUTPUT);
 }
 
+void SimpleLED::begin()
+{
+    pinMode(_ledPin, OUTPUT);
+}
+
 void SimpleLED::on()
 {
     digitalWrite(_ledPin, HIGH);

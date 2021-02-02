@@ -21,10 +21,14 @@ class LayerManager: LayerGetter
 {
     public:
         LayerManager(uint8_t buttonPin, uint8_t ledPins[2], int maxLayers);
+        void begin();
         int getCurrentLayer() override;
     private:
         void updateLayer();
         void updateLigths();
+        uint8_t _buttonPin;
+        uint8_t _ledPin1;
+        uint8_t _ledPin2;
         int _layer;
         int _maxLayers;
         SimpleLED* _led1;

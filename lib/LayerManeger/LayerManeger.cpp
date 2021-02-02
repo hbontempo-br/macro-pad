@@ -9,13 +9,20 @@
 LayerManager::LayerManager(uint8_t buttonPin, uint8_t ledPins[2], int maxLayers)
 {
   Button _button(buttonPin);
-  _button.begin();
   SimpleLED _led1(ledPins[0]);
   SimpleLED _led2(ledPins[1]);
   _maxLayers = maxLayers;
   _layer = 1;
+}
+
+void LayerManager::begin()
+{
+  _button->begin();
+  _led1->begin();
+  _led2->begin();
   updateLigths();
 }
+
 
 int LayerManager::getCurrentLayer()
 {
@@ -27,6 +34,8 @@ int LayerManager::getCurrentLayer()
 void LayerManager::updateLayer()
 {
   if (_button->pressed()) {
+    Serial.println("LayerChanged");
+    delay(1000);
     _layer = _layer + 1 % _maxLayers;
   }
 }

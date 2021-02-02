@@ -75,6 +75,7 @@ void executeAction(uint8_t layerAlterer[2], uint8_t action ) {
 void setup(){
   Serial.begin(9600);
 
+  layerManager.begin();
   Keyboard.begin();
 
   leftEncoder.begin();
@@ -86,9 +87,6 @@ void setup(){
 void loop() {
   int currentLayer = layerManager.getCurrentLayer();
   uint8_t layerAlterer[2] = {layerAlterers[currentLayer][0], layerAlterers[currentLayer][1]};
-  // Serial.println("Alive");
-  // Serial.println("Alive2");
-  // Serial.println(currentLayer);
 
   unsigned char leftRotation = leftEncoder.process();
   if (leftRotation != DIR_NONE) {
