@@ -1,9 +1,10 @@
 #include <Arduino.h>
 
-#include <Button.h>
 #include <Keyboard.h>
 #include <Keypad.h>
 #include <Rotary.h>
+
+#include <LayerManeger.h>
 
 //
 //  Key Matrix:
@@ -44,7 +45,8 @@ Rotary rigthEncoder = Rotary(SCK, MISO);
 
 
 // Layers
-Button layerButton(A0);
+uint8_t inputLEDs[2] = {A2, A3};
+LayerManager layerManager(A0, inputLEDs, 3);
 uint8_t currentLayer;
 
 uint8_t layerAlterers[3][2];
@@ -73,24 +75,25 @@ void executeAction(uint8_t layerAlterer[2], uint8_t action ) {
 void setup(){
   Serial.begin(9600);
 
+  // // Countdown for debugging
+  // for (int i = 10; i--; i > 0){
+  //   Serial.println((String)"Starting in ..." + i);
+  //   delay(1000);
+  // };
+
+  layerManager.begin();
   Keyboard.begin();
 
   leftEncoder.begin();
   rigthEncoder.begin();
 
-  layerButton.begin();
-  currentLayer = 0; // TODO: ave value between restarts
   setupLayers();
 }
 
 void loop() {
-  if (layerButton.pressed()) {
-    currentLayer = (currentLayer + 1) % 3;
-    Serial.println((String)"Layer selected: " + currentLayer);
-    // Still not handling LEDs
-  }
+  int currentLayer = layerManager.getCurrentLayer();
   uint8_t layerAlterer[2] = {layerAlterers[currentLayer][0], layerAlterers[currentLayer][1]};
-  
+
   unsigned char leftRotation = leftEncoder.process();
   if (leftRotation != DIR_NONE) {
     uint8_t action = leftRotation == DIR_CW ? KEY_F21 : KEY_F22;
@@ -115,5 +118,5 @@ void loop() {
 
 
   delay(1);
-}
 
+};
