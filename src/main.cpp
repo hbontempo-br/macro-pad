@@ -75,6 +75,12 @@ void executeAction(uint8_t layerAlterer[2], uint8_t action ) {
 void setup(){
   Serial.begin(9600);
 
+  // // Countdown for debugging
+  // for (int i = 10; i--; i > 0){
+  //   Serial.println((String)"Starting in ..." + i);
+  //   delay(1000);
+  // };
+
   layerManager.begin();
   Keyboard.begin();
 

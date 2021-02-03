@@ -6,7 +6,7 @@
 #define LayerManager_h
 
 #include <Arduino.h>
-#include <Button.h>
+#include <JC_Button.h>
 #include <SimpleLED.h>
 
 class LayerGetter
@@ -26,14 +26,11 @@ class LayerManager: LayerGetter
     private:
         void updateLayer();
         void updateLigths();
-        uint8_t _buttonPin;
-        uint8_t _ledPin1;
-        uint8_t _ledPin2;
         int _layer;
         int _maxLayers;
-        SimpleLED* _led1;
-        SimpleLED* _led2;
-        Button* _button;
+        SimpleLED _led1;
+        SimpleLED _led2;
+        Button _button;
 };
 
 
