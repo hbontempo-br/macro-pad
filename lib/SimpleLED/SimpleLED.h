@@ -5,8 +5,6 @@
 #ifndef SimpleLED_h
 #define SimpleLED_h
 
-#include <Arduino.h>
-
 class SimpleLED
 {
     public:
