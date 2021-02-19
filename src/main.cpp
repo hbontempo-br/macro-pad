@@ -1,10 +1,17 @@
-#include <Arduino.h>
+#include <ArduinoSTL.h>
 
 #include <Keyboard.h>
 #include <Keypad.h>
 #include <Rotary.h>
 
 #include <LayerManeger.h>
+#include <MacroPad.h>
+
+std::vector<uint8_t> rows = {4, 5};
+std::vector<uint8_t> collumns = {6, 7, 8, 9};
+MacroPad macroPad(rows, collumns);
+
+
 
 //
 //  Key Matrix:
@@ -26,18 +33,18 @@
 //    2: [Shift]
 //
 
-// KeyPad config
-uint8_t const ROWS = 2;
-uint8_t const COLS = 4;
-uint8_t rowPins[ROWS] = {4, 5};
-uint8_t colPins[COLS] = {6, 7, 8, 9};
-char keys[] = "ABCDEFGH";
-Keypad keypad = Keypad(keys, rowPins, colPins, ROWS, COLS);
+// // KeyPad config
+// uint8_t const ROWS = 2;
+// uint8_t const COLS = 4;
+// uint8_t rowPins[ROWS] = {4, 5};
+// uint8_t colPins[COLS] = {6, 7, 8, 9};
+// char keys[] = "ABCDEFGH";
+// Keypad keypad = Keypad(keys, rowPins, colPins, ROWS, COLS);
 
-uint8_t buttonActions[] = {
-  KEY_F13, KEY_F14, KEY_F15, KEY_F16,
-  KEY_F17, KEY_F18, KEY_F19, KEY_F20
-};
+// uint8_t buttonActions[] = {
+//   KEY_F13, KEY_F14, KEY_F15, KEY_F16,
+//   KEY_F17, KEY_F18, KEY_F19, KEY_F20
+// };
 
 // Encoders
 Rotary leftEncoder = Rotary(MOSI, A10);
@@ -75,11 +82,12 @@ void executeAction(uint8_t layerAlterer[2], uint8_t action ) {
 void setup(){
   Serial.begin(9600);
 
-  // // Countdown for debugging
-  // for (int i = 10; i--; i > 0){
-  //   Serial.println((String)"Starting in ..." + i);
-  //   delay(1000);
-  // };
+
+  // Countdown for debugging
+  for (int i = 10; i > 0; i--){
+    Serial.println((String)"Starting in ..." + i);
+    delay(1000);
+  };
 
   layerManager.begin();
   Keyboard.begin();
@@ -107,14 +115,24 @@ void loop() {
   }
 
 
-  auto key = keypad.getKey();
-  if (key)
+  int* key = macroPad.getKey();
+  int row = key[0];
+  int col = key[1];
+  if(row != NO_KEY_PRESSED && col != NO_KEY_PRESSED)
   {
-    auto index = key - 'A';
-    uint8_t buttonAction = buttonActions[index];
-
-    executeAction(layerAlterer, buttonAction);
+    Serial.println((String)"" + row + "/" + col);
+    delay(3000);
   }
+
+  // auto key_ = keypad.getKey();
+  // if (key_)
+  // {
+  //   Serial.println((String)"Key" + key_);
+  //   auto index = key_ - 'A';
+  //   uint8_t buttonAction = buttonActions[index];
+
+  //   executeAction(layerAlterer, buttonAction);
+  // }
 
 
   delay(1);
