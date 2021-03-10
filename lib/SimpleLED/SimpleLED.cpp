@@ -3,8 +3,6 @@
 
 #include <SimpleLED.h>
 
-#include <Arduino.h>
-
 SimpleLED::SimpleLED(int ledPin)
 : _ledPin(ledPin)
 {

@@ -108,9 +108,9 @@ void loop() {
     executeAction(layerAlterer, action);
   }
 
-  unsigned char rigthRotation = leftEncoder.process();
+  unsigned char rigthRotation = rigthEncoder.process();
   if (rigthRotation != DIR_NONE) {
-    uint8_t action = rigthRotation == DIR_CW ? KEY_F21 : KEY_F22;
+    uint8_t action = rigthRotation == DIR_CW ? KEY_F23 : KEY_F24;
     executeAction(layerAlterer, action);
   }
 
